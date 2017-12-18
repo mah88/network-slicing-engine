@@ -401,9 +401,9 @@ public class CoreModule {
 
   private Map<String, String> getComputeNodeMap(OSClient os) {
     Map<String, String> computenode_ip_map = new HashMap<String, String>();
-    for (Hypervisor h : os.compute().hypervisors().list()) {
-      computenode_ip_map.put(h.getHypervisorHostname(), h.getHostIP());
-    }
+   // for (Hypervisor h : os.compute().hypervisors().list()) {
+   //   computenode_ip_map.put(h.getHypervisorHostname(), h.getHostIP());
+   // }
     return computenode_ip_map;
   }
 
