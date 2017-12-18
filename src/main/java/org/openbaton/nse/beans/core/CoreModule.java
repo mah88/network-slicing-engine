@@ -399,13 +399,6 @@ public class CoreModule {
     return null;
   }
 
-  private Map<String, String> getComputeNodeMap(OSClient os) {
-    Map<String, String> computenode_ip_map = new HashMap<String, String>();
-   // for (Hypervisor h : os.compute().hypervisors().list()) {
-   //   computenode_ip_map.put(h.getHypervisorHostname(), h.getHostIP());
-   // }
-    return computenode_ip_map;
-  }
 
   private Map<String, String> getVnfHostNameComputeNodeMap(
       OSClient os, Set<VirtualNetworkFunctionRecord> vnfrs) {
@@ -440,7 +433,6 @@ public class CoreModule {
             v,
             creds,
             portList,
-            this.getComputeNodeMap(os),
             this.getVnfHostNameComputeNodeMap(os, vim_vnfrs_map.get(key)));
     qtScheduler.schedule(aqe, 1, TimeUnit.SECONDS);
   }
@@ -512,27 +504,6 @@ public class CoreModule {
                 for (VNFCInstance vnfci : vdu.getVnfc_instance()) {
                   VimInstance tmp_vim = this.getVimInstance(nfvo_nsr_req, vnfci.getVim_id());
                   OSClient tmp_os = getOSClient(tmp_vim);
-                  Map<String, String> tmp_computeNodeMap = getComputeNodeMap(tmp_os);
-                  if (tmp_computeNodeMap != null) {
-                    // We collect all involved compute nodes
-                    for (String key : tmp_computeNodeMap.keySet()) {
-                      boolean node_found = false;
-                      for (int i = 0; i < complete_computeNodeMap.size(); i++) {
-                        if (complete_computeNodeMap.get(i).get("name").equals(key)) {
-                          node_found = true;
-                        }
-                      }
-                      if (!node_found) {
-                        HashMap<String, Object> tmp_node_entry = new HashMap<String, Object>();
-                        //tmp_node_entry.put(key, tmp_computeNodeMap.get(key));
-                        tmp_node_entry.put("vnfs", new ArrayList<HashMap<String, String>>());
-                        tmp_node_entry.put("node_ip", tmp_computeNodeMap.get(key));
-                        tmp_node_entry.put("name", key);
-
-                        complete_computeNodeMap.add(tmp_node_entry);
-                      }
-                    }
-                  }
 
                   Map<String, String> tmp_vnf_computeNodeMap =
                       getVnfHostNameComputeNodeMap(tmp_os, nsr.getVnfr());
