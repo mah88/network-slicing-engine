@@ -537,7 +537,7 @@ public class CoreModule {
                               //    "Entry "
                               //        + vnfci.getHostname()
                               //        + " already added to "
-                              //        + current_compute_node);
+                              //        + current_compute_node); 
                             } else {
                               //logger.debug(
                               //    "adding " + vnfci.getHostname() + " to " + current_compute_node);
