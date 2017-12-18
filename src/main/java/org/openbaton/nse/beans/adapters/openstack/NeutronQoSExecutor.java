@@ -68,7 +68,6 @@ public class NeutronQoSExecutor implements Runnable {
   private String token;
   private Map<String, String> creds;
   private List<org.openstack4j.model.network.Port> portList;
-  private Map<String, String> computeNodeMap;
   private Map<String, String> hostComputeNodeMap;
   private String delimiter_line;
 
@@ -79,7 +78,6 @@ public class NeutronQoSExecutor implements Runnable {
       VimInstance v,
       Map<String, String> creds,
       List<org.openstack4j.model.network.Port> portList,
-      Map<String, String> computeNodeMap,
       Map<String, String> hostComputeNodeMap) {
     this.vnfrs = vnfrs;
     this.logger = LoggerFactory.getLogger(this.getClass());
@@ -88,7 +86,6 @@ public class NeutronQoSExecutor implements Runnable {
     this.v = v;
     this.creds = creds;
     this.portList = portList;
-    this.computeNodeMap = computeNodeMap;
     this.hostComputeNodeMap = hostComputeNodeMap;
   }
 
@@ -120,15 +117,12 @@ public class NeutronQoSExecutor implements Runnable {
                     + " -> "
                     + r.getQuality()
                     + " -> "
-                    + hostComputeNodeMap.get(vnfr.getName())
-                    + " -> "
-                    + computeNodeMap.get(hostComputeNodeMap.get(vnfr.getName())));
+                    + hostComputeNodeMap.get(vnfr.getName()));
           } catch (Exception e) {
             logger.warn("  Problem checking on compute node for " + r.getIp());
             logger.debug("/////////////////////////////////////");
             logger.debug(hostComputeNodeMap.toString());
             logger.debug("/////////////////////////////////////");
-            logger.debug(computeNodeMap.toString());
           }
         }
       }
